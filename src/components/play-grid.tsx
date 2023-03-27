@@ -1,8 +1,20 @@
-export function PlayGrid(props: { board: string[][] }) {
-  console.log(props.board);
+import { useEffect, useState } from "react";
+
+export function PlayGrid() {
+  const [board, setBoard] = useState(() => [
+    [".", ".", "."],
+    [".", ".", "."],
+    [".", ".", "."],
+  ]);
+
+  function onFieldClick(rowNumber: number, columnNumber: number): void {
+    board[rowNumber][columnNumber] = "x";
+    console.log("click", rowNumber, columnNumber, board);
+    setBoard([...board]);
+  }
 
   const fields: JSX.Element[] = [];
-  props.board.forEach((row: string[], rowNumber: number) =>
+  board.forEach((row: string[], rowNumber: number) =>
     row.forEach((content: string, columnNumber: number) =>
       fields.push(
         <PlayGridField
@@ -10,22 +22,27 @@ export function PlayGrid(props: { board: string[][] }) {
           rowNumber={rowNumber}
           columnNumber={columnNumber}
           content={content}
+          onFieldClick={onFieldClick}
         />
       )
     )
   );
 
-  return <div id="play-grid">{fields.map((field: JSX.Element) => field)}</div>;
+  return <div id="play-grid">{fields}</div>;
 }
 
 function PlayGridField(props: {
   rowNumber: number;
   columnNumber: number;
   content: string;
+  onFieldClick: (rowNumber: number, columnNumber: number) => void;
 }) {
   return (
-    <div className="play-field">
-      {props.content} + {props.rowNumber} + {props.columnNumber}
+    <div
+      className="play-field"
+      onClick={() => props.onFieldClick(props.rowNumber, props.columnNumber)}
+    >
+      {!props.content.includes(".") && props.content}
     </div>
   );
 }
