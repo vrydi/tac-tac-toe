@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import { PlayGrid } from "./components/play-grid";
+import { ScoreGrid } from "./components/score-grid";
 
 function App() {
-  return <div className="App"></div>;
+  const [board, setBoard] = useState([
+    [".", ".", "."],
+    [".", ".", "."],
+    [".", ".", "."],
+  ]);
+
+  return (
+    <div className="App">
+      <ScoreGrid />
+      <PlayGrid board={board} />
+    </div>
+  );
 }
 
 export default App;
