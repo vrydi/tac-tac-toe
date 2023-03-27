@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export function PlayGrid() {
+export function PlayGrid(props: { turnX: boolean; switchTurn: () => void }) {
   const [board, setBoard] = useState(() => [
     [".", ".", "."],
     [".", ".", "."],
@@ -8,9 +8,9 @@ export function PlayGrid() {
   ]);
 
   function onFieldClick(rowNumber: number, columnNumber: number): void {
-    board[rowNumber][columnNumber] = "x";
-    console.log("click", rowNumber, columnNumber, board);
+    board[rowNumber][columnNumber] = props.turnX ? "x" : "o";
     setBoard([...board]);
+    props.switchTurn();
   }
 
   const fields: JSX.Element[] = [];
@@ -40,7 +40,11 @@ function PlayGridField(props: {
   return (
     <div
       className="play-field"
-      onClick={() => props.onFieldClick(props.rowNumber, props.columnNumber)}
+      onClick={
+        props.content.includes(".")
+          ? () => props.onFieldClick(props.rowNumber, props.columnNumber)
+          : undefined
+      }
     >
       {!props.content.includes(".") && props.content}
     </div>
