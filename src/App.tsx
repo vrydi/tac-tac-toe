@@ -1,4 +1,4 @@
-import React, { ReactHTMLElement, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import { PlayGrid } from "./components/play-grid";
 import { ScoreGrid } from "./components/score-grid";
