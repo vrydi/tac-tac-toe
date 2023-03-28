@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactHTMLElement, useRef, useState } from "react";
 import "./App.css";
 import { PlayGrid } from "./components/play-grid";
 import { ScoreGrid } from "./components/score-grid";
@@ -8,15 +8,34 @@ function App() {
   const [numberOfGames, setNumberOfGames] = useState(0);
   const [score, setScore] = useState({ x: 0, o: 0 });
 
+  const endGameModalRef = useRef<HTMLDivElement>(null);
+  const endGameModalContentRef = useRef<HTMLDivElement>(null);
+
   const switchTurn = (): void => {
     setTurnX(!turnX);
   };
 
   const finishGame = (win: boolean | false): void => {
-    if (!win) resetGame();
+    endGameModalRef.current!.classList.remove("hidden");
+    console.log(win);
+    if (!win) {
+      endGameModalContentRef.current!.innerText = "It's a tie!";
+      setTimeout(() => {
+        endGameModalRef.current!.classList.add("hidden");
+      }, 3000);
+      resetGame();
+      return;
+    }
+
     const newScore = score;
     if (turnX) newScore.x++;
     else newScore.o++;
+    endGameModalContentRef.current!.innerText = `Player ${
+      turnX ? "X" : "O"
+    } has won!`;
+    setTimeout(() => {
+      endGameModalRef.current?.classList.add("hidden");
+    }, 3000);
     setScore(newScore);
     resetGame();
   };
@@ -28,6 +47,12 @@ function App() {
 
   return (
     <div className="App">
+      <div id="end-game-modal" className="modal hidden" ref={endGameModalRef}>
+        <div className="modal-content">
+          <h1 ref={endGameModalContentRef}>Player x has won!</h1>
+          <ScoreGrid turnX={turnX} score={score} />
+        </div>
+      </div>
       <ScoreGrid turnX={turnX} score={score} />
       <PlayGrid
         key={numberOfGames}
@@ -37,7 +62,7 @@ function App() {
       />
       <div className="button-wrapper">
         <button id="reset-button" onClick={() => resetGame()}>
-          RESET {numberOfGames}
+          RESET GAME
         </button>
       </div>
     </div>
