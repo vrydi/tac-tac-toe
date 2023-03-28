@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export function PlayGrid(props: { turnX: boolean; switchTurn: () => void }) {
+export function PlayGrid(props: {
+  turnX: boolean;
+  switchTurn: () => void;
+  finishGame: (win: boolean | false) => void;
+}) {
   const [board, setBoard] = useState(() => [
     [".", ".", "."],
     [".", ".", "."],
@@ -10,9 +14,10 @@ export function PlayGrid(props: { turnX: boolean; switchTurn: () => void }) {
   function onFieldClick(rowNumber: number, columnNumber: number): void {
     board[rowNumber][columnNumber] = props.turnX ? "x" : "o";
     const win = checkForWin(board);
-    console.log(win);
+    if (checkFullBoard(board)) props.finishGame(win);
+    if (win) props.finishGame(win);
+    else props.switchTurn();
     setBoard([...board]);
-    props.switchTurn();
   }
 
   const fields: JSX.Element[] = [];
@@ -84,6 +89,12 @@ function checkDiagonal(board: string[][]): boolean {
   if (board[0][2] === "o" && board[1][1] === "o" && board[2][0] === "o")
     return true;
   return false;
+}
+
+function checkFullBoard(board: string[][]): boolean {
+  return !board.some((row: string[]) =>
+    row.some((field: string) => field.includes("."))
+  );
 }
 
 function transpose(matrix: any[][]): any[][] {

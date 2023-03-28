@@ -10,6 +10,10 @@
   --color-x: var(--color-orange);
 }
 
+body {
+  background-color: var(--color-dark-blue);
+}
+
 #score-grid {
   display: flex;
   flex-direction: column;
@@ -22,6 +26,7 @@
   width: 200px;
   margin-inline: auto;
   margin-block: 32px;
+  background-color: var(--color-white);
 }
 
 .score-field {
@@ -58,7 +63,8 @@
   gap: 16px;
   align-content: center;
   width: fit-content;
-  margin: auto;
+  margin-inline: auto;
+  margin-block: 32px;
   padding: 16px;
   background-color: var(--color-light-gray);
 }
@@ -69,4 +75,23 @@
   width: 75px;
   height: 75px;
   background-color: var(--color-white);
+}
+
+#reset-button {
+  background-color: var(--color-light-gray);
+  border: var(--color-dark-blue), 1px solid;
+  border-radius: 15px;
+  padding: 16px 32px;
+  margin-inline: auto;
+  transition: all 500ms;
+  cursor: pointer;
+}
+
+.button-wrapper {
+  text-align: center;
+}
+
+#reset-button:hover {
+  color: var(--color-light-gray);
+  background-color: var(--color-black);
 }
