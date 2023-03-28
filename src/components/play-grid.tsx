@@ -46,7 +46,7 @@ function PlayGridField(props: {
 }) {
   return (
     <div
-      className="play-field"
+      className={`play-field field-${props.content}`}
       onClick={
         props.content.includes(".")
           ? () => props.onFieldClick(props.rowNumber, props.columnNumber)

@@ -75,6 +75,18 @@ body {
   width: 75px;
   height: 75px;
   background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.5em;
+}
+
+.field-x {
+  color: var(--color-x);
+}
+
+.field-o {
+  color: var(--color-o);
 }
 
 #reset-button {
